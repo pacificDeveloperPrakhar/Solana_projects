@@ -122,15 +122,21 @@ const [poll_pda]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id
 const candidateName="john jacobs";
   const [candidate_pda]=PublicKey.findProgramAddressSync([poll_id,Buffer.from(candidateName)],program_id);
 
-await program.methods.vote().accounts(
-    {
-        candidate:candidate_pda,
-        poll:poll_pda
+  for(let i=0;i<=5;i++)
+  {
+
+      await program.methods.vote().accounts(
+          {
+              candidate:candidate_pda,
+              poll:poll_pda
+            }
+        ).rpc();
     }
-).rpc();
 
 const data=await program.account.candidate.fetch(candidate_pda);
 
-assert.equal(Number(data.voteCount),1);
+
+console.log(data)
+assert.equal(Number(data.voteCount),6);
 })
 })
