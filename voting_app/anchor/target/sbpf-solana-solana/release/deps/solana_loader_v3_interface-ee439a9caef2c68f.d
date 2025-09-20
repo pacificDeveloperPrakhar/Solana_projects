@@ -1,9 +1,0 @@
-/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/sbpf-solana-solana/release/deps/libsolana_loader_v3_interface-ee439a9caef2c68f.rmeta: /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/lib.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/instruction.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/state.rs
-
-/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/sbpf-solana-solana/release/deps/libsolana_loader_v3_interface-ee439a9caef2c68f.rlib: /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/lib.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/instruction.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/state.rs
-
-/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/sbpf-solana-solana/release/deps/solana_loader_v3_interface-ee439a9caef2c68f.d: /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/lib.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/instruction.rs /home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/state.rs
-
-/home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/lib.rs:
-/home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/instruction.rs:
-/home/prakhar/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-loader-v3-interface-5.0.0/src/state.rs:

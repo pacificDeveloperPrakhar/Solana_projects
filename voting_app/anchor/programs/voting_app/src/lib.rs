@@ -53,23 +53,3 @@ pub poll:Account<'info,Poll>,
 pub system_program:Program<'info,System>
 }
 
-// #[derive(Accounts)]
-// #[instruction(poll_id: u8, poll_data: String)]
-// pub struct InitializePoll<'info> {
-//     #[account(mut)]
-//     pub user: Signer<'info>,
-    
-//     #[account(
-//         init,
-//         payer = user,
-//         space = 8 + Poll::INIT_SPACE,
-//         seeds = [
-//             poll_data.as_ref(),
-//             poll_id.to_le_bytes().as_ref() 
-//         ],
-//         bump
-//     )]
-//     pub poll: Account<'info, Poll>,
-    
-//     pub system_program: Program<'info, System>,
-// }

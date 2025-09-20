@@ -3,9 +3,11 @@ import {BankrunProvider} from "anchor-bankrun"
 import type {VotingApp} from "../target/types/voting_app"
 import {PublicKey} from "@solana/web3.js";
 import {BN,Program} from "@coral-xyz/anchor";
-
+import {assert,expect}  from "chai";
 
 import IDL from "/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/idl/voting_app.json"
+import test from "node:test";
+
 describe("voting",function()
 {
     test("creating the poll",async ()=>{
@@ -38,7 +40,45 @@ describe("voting",function()
     // now create the program object  that basically correspond to our smart contract
     // https://www.anchor-lang.com/docs/clients/typescript
     const program=new Program<VotingApp>(IDL as VotingApp,provider)
-    })
-
     
+    // now we create the pda
+
+    const poll_id=new Uint8Array([1]);
+    const poll_data=Buffer.from("who is the best person");
+    const poll_start=2345;
+    const poll_end=3455
+    // creating the pda
+    const [pda,bump]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id);
+    const pollId = 1;
+const pollData = "who is the best person";
+
+// For pollStart and pollEnd, use BN.
+// For example, you can use the current time for a simple test.
+const now = Date.now() / 1000; // Get current time in seconds
+const pollStart = new BN(now);
+const pollEnd = new BN(now + 3600); // Poll ends in one hour
+
+await program.methods.createPoll(
+    pollId,
+    pollData,
+    pollStart,
+    pollEnd
+).rpc();
+
+
+const data=await program.account.poll.fetch(pda);
+console.log(data)
+// check all the data fields are properly filled
+assert.equal(data.pollId,1)
+assert.equal(data.data,"who is the best person")
+
+expect(Number(data.startPoll)).to.lessThan(Number(data.endPoll))
+})
+
+
+// now we will test for creating the candidate we will create three candidates for now
+
+test("creating candidates",async()=>{
+    
+})
 })

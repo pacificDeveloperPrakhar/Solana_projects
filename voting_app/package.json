@@ -67,6 +67,7 @@
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.33.0",
     "eslint-config-next": "15.5.0",
     "esrun": "^3.2.30",
