@@ -1,18 +1,25 @@
-import {startAnchor} from "solana-bankrun";
+import {ProgramTestContext, startAnchor} from "solana-bankrun";
 import {BankrunProvider} from "anchor-bankrun"
-import type {VotingApp} from "../target/types/voting_app"
+import type {VotingApp} from "../target/types/voting_app.ts"
 import {PublicKey} from "@solana/web3.js";
 import {BN,Program} from "@coral-xyz/anchor";
 import {assert,expect}  from "chai";
 
 import IDL from "/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/idl/voting_app.json"
-import test from "node:test";
+import test, { beforeEach } from "node:test";
+import { Account } from "solana-bankrun/dist/internal";
 
 describe("voting",function()
 {
-    test("creating the poll",async ()=>{
-        const program_id=new PublicKey("JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H");
-        // create the context 
+    let program_id:PublicKey;
+    let context:ProgramTestContext;
+    let provider:BankrunProvider;
+    let program:Program<VotingApp>;
+
+    beforeAll(
+        async()=>{
+            program_id=new PublicKey("JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H");
+                    // create the context 
         /*
  * startAnchor() function arguments:
  *
@@ -34,19 +41,26 @@ describe("voting",function()
  *     pre-loaded.
  */
 
-       const context=await startAnchor("",[{name:"voting_app",programId:program_id}],[]);
-    //    this creates in memory client and server to mimic the cluster
-       const provider=new BankrunProvider(context);
-    // now create the program object  that basically correspond to our smart contract
+            context=await startAnchor("",[{name:"voting_app",programId:program_id}],[]);
+            //    this creates in memory client and server to mimic the cluster
+            provider=new BankrunProvider(context);
+                // now create the program object  that basically correspond to our smart contract
     // https://www.anchor-lang.com/docs/clients/typescript
-    const program=new Program<VotingApp>(IDL as VotingApp,provider)
+    program=new Program<VotingApp>(IDL as VotingApp,provider)
+        }
+    );
+
+    it("creating the poll",async ()=>{
+       
+
+       
+    
+
     
     // now we create the pda
 
     const poll_id=new Uint8Array([1]);
     const poll_data=Buffer.from("who is the best person");
-    const poll_start=2345;
-    const poll_end=3455
     // creating the pda
     const [pda,bump]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id);
     const pollId = 1;
@@ -73,12 +87,31 @@ assert.equal(data.pollId,1)
 assert.equal(data.data,"who is the best person")
 
 expect(Number(data.startPoll)).to.lessThan(Number(data.endPoll))
-})
+});
 
 
 // now we will test for creating the candidate we will create three candidates for now
 
-test("creating candidates",async()=>{
-    
+
+
+
+it("creating candidate",async()=>{
+//   first get the poll pda
+const poll_id=new Uint8Array([1]);
+const poll_data=Buffer.from("who is the best person");
+const [pda]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id);
+// now call the instruction handler createCandidate to create the candidate
+  await program.methods.createCandidate(1,"john jacobs").accounts({pollAccount:pda}).rpc();
+  
+  const candidateName="john jacobs";
+  const [candidate_pda]=PublicKey.findProgramAddressSync([poll_id,Buffer.from(candidateName)],program_id);
+
+  const data=await program.account.candidate.fetch(candidate_pda);
+
+  assert.equal(Number(data.pollId),1)
+  assert.equal(Number(data.voteCount),0);
+  console.log(data)
 })
+
+
 })

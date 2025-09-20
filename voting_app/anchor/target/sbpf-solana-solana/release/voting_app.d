@@ -1,0 +1,1 @@
+/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/sbpf-solana-solana/release/voting_app.so: /home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/programs/voting_app/src/lib.rs
