@@ -105,13 +105,32 @@ const [pda]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id);
   
   const candidateName="john jacobs";
   const [candidate_pda]=PublicKey.findProgramAddressSync([poll_id,Buffer.from(candidateName)],program_id);
-
+//   now i am going to get the data of the candidate
   const data=await program.account.candidate.fetch(candidate_pda);
 
   assert.equal(Number(data.pollId),1)
   assert.equal(Number(data.voteCount),0);
   console.log(data)
+});
+
+it("voting the candidate",async()=>{
+    // we do need two account to cast our vote that is the poll and the candidate
+    const poll_id=new Uint8Array([1]);
+const poll_data=Buffer.from("who is the best person");
+const [poll_pda]=PublicKey.findProgramAddressSync([poll_data,poll_id],program_id);
+// other thing that we do need is the candidate 
+const candidateName="john jacobs";
+  const [candidate_pda]=PublicKey.findProgramAddressSync([poll_id,Buffer.from(candidateName)],program_id);
+
+await program.methods.vote().accounts(
+    {
+        candidate:candidate_pda,
+        poll:poll_pda
+    }
+).rpc();
+
+const data=await program.account.candidate.fetch(candidate_pda);
+
+assert.equal(Number(data.voteCount),1);
 })
-
-
 })
