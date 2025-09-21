@@ -1,87 +1,28 @@
-# voting_app
+#Voting App
 
-This is a Next.js app containing:
+* so the voting app uses pnpm 
 
-- Tailwind CSS setup for styling
-- Useful wallet UI elements setup using [Gill](https://gill.site/)
-- A basic Counter Solana program written in Anchor
-- UI components for interacting with the Counter program
+### Note 
 
-## Getting Started
+* i have used the devnet for action and blinks 
+* i have used the solana-bankrun for the im meory cluster it was used during the testing of the smart contract
 
-### Installation
+## ERROR (Which i had a hard time fixing)
 
-#### Download the template
-
-```shell
-pnpm create solana-dapp@latest -t gh:solana-foundation/templates/gill/voting_app
+```
+[
+  'Program CHCCMPxkFw4RpQHAaHWwcudkfxcK6LCcUcAj2gZwUi7f invoke [1]',
+  'Program log: AnchorError occurred. Error Code: DeclaredProgramIdMismatch. Error Number: 4100. Error Message: The declared program id does not match the actual program id.',
+  'Program CHCCMPxkFw4RpQHAaHWwcudkfxcK6LCcUcAj2gZwUi7f consumed 2461 of 200000 compute units',
+  'Program CHCCMPxkFw4RpQHAaHWwcudkfxcK6LCcUcAj2gZwUi7f failed: custom program error: 0x1004'
+]
 ```
 
-#### Install Dependencies
+* so basically even after ensuring that prgram key matched with all the defined key in the other places like
+idl and target/types
 
-```shell
-pnpm install
-```
+* still i was encountering the error 
 
-## Apps
-
-### anchor
-
-This is a Solana program written in Rust using the Anchor framework.
-
-#### Commands
-
-You can use any normal anchor commands. Either move to the `anchor` directory and run the `anchor` command or prefix the
-command with `pnpm`, eg: `pnpm anchor`.
-
-#### Sync the program id:
-
-Running this command will create a new keypair in the `anchor/target/deploy` directory and save the address to the
-Anchor config file and update the `declare_id!` macro in the `./src/lib.rs` file of the program. This will also update
-the constant in the `anchor/src/counter-exports.ts` file.
-
-```shell
-pnpm run setup
-```
-
-#### Build the program:
-
-```shell
-pnpm anchor-build
-```
-
-#### Start the test validator with the program deployed:
-
-```shell
-pnpm anchor-localnet
-```
-
-#### Run the tests
-
-```shell
-pnpm anchor-test
-```
-
-#### Deploy to Devnet
-
-```shell
-pnpm anchor deploy --provider.cluster devnet
-```
-
-### web
-
-This is a React app that uses the Anchor generated client to interact with the Solana program.
-
-#### Commands
-
-Start the web app
-
-```shell
-pnpm dev
-```
-
-Build the web app
-
-```shell
-pnpm build
-```
+* it was due to the fact that the anchor was assuming that i am using the validator and it was looking for the (program id) on the local cluster and in my defined anchor.toml it was prevoulsy
+like 
+program.localnet
