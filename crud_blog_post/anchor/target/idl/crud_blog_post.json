@@ -171,7 +171,12 @@
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "_id",
+          "type": "u64"
+        }
+      ]
     },
     {
       "name": "update_blog",
@@ -216,6 +221,10 @@
         }
       ],
       "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
         {
           "name": "title",
           "type": "string"

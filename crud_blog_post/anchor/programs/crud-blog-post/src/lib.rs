@@ -33,7 +33,7 @@ pub mod crud_blog_post
         return Ok(())
     }
 
-    pub fn update_blog(ctx:Context<UpdateBlog>,title:String,description:String,image:String)->Result<()>
+    pub fn update_blog(ctx:Context<UpdateBlog>,id:u64,title:String,description:String,image:String)->Result<()>
     {
         let blog=& mut ctx.accounts.blog;
         blog.title=title;
@@ -44,7 +44,7 @@ pub mod crud_blog_post
         return Ok(());
     }
 
-    pub fn delete_blog(_ctx:Context<DeleteBlog>)->Result<()>
+    pub fn delete_blog(_ctx:Context<DeleteBlog>,_id:u64)->Result<()>
     {
         return Ok(())
     }

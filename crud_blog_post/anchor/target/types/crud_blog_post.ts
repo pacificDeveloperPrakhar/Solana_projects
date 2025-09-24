@@ -177,7 +177,12 @@ export type CrudBlogPost = {
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        }
+      ]
     },
     {
       "name": "updateBlog",
@@ -222,6 +227,10 @@ export type CrudBlogPost = {
         }
       ],
       "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
         {
           "name": "title",
           "type": "string"

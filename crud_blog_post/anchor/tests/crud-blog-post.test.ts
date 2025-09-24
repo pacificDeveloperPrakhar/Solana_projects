@@ -12,6 +12,7 @@ describe("checking the crud_blog_post",async function()
     let provider:BankrunProvider;
     let program:Program<CrudBlogPost>;
     let userAccount:any;
+    let blogAccount:any;
 
     beforeAll(async function(){
 
@@ -51,13 +52,50 @@ it("creating our first blog post",async function()
 const title="Nice ";
 const image='http';
 const id=new BN(2);
-const description="u";
+const description='a'.repeat(300);
 
-// const [blog_pda]=PublicKey.findProgramAddressSync([userAccount.toBuffer(),id.toArrayLike(Buffer, "le", 8) ],program_id)
-
+const [blog_pda]=PublicKey.findProgramAddressSync([userAccount.toBuffer(),id.toArrayLike(Buffer, "le", 8) ],program_id)
+blogAccount=blog_pda;
 await program.methods.createBlog(id,title, description, image).accounts({
   userAccount
 }).rpc();
+
+})
+
+
+// now updating the post 
+it("update the post",async function()
+{
+  const title="Nice ";
+  const image='http';
+  const id=new BN(2);
+  const description="hello how are you";
+
+  await program.methods.updateBlog(id,title, description, image).accounts({
+    userAccount,
+    blog:blogAccount
+  }).rpc();
+  
+
+  const blog=await program.account.blog.fetch(blogAccount)
+  assert.equal(blog.description,description)
+})
+
+it("deleting the blog and checking if it the lamorts are being returned",async function()
+{
+  try{
+
+    const id=new BN(2);
+    const blog=await program.methods.deleteBlog(id).accounts({blog:blogAccount,userAccount}).rpc()
+    
+    
+    const acc=await program.account.blog.fetch(blogAccount);
+    expect.fail('The transaction should have thrown an error');
+  }
+  catch(err)
+  {
+    expect(err.message).to.include('Could not find'); 
+  }
 
 })
 })
