@@ -122,6 +122,6 @@ pub struct DeleteBlog<'info>
     )]
     pub blog:Account<'info,Blog>,
    #[account(mut)]
-   pub user_account:Account<'info,UserAccount>,
+   pub user_account:Box<Account<'info,UserAccount>>,
    pub system_program:Program<'info,System>
 }
