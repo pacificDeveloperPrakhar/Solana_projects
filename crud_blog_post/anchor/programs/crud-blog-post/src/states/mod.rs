@@ -8,17 +8,17 @@ pub struct UserAccount
  pub name:String,
  pub blog_count:u64,
  #[max_len(200)]
- pub image:String
+ pub image:String,
 }
 //now the blog account 
 //since we are updaing it we would have to manually calculate the space hence we are not using the InitSpace
 #[account]
 pub struct Blog
 {
- pub description:String,
  pub id:u64,
+ pub description:String,
  pub image:String,
  pub title:String,
- pub create_at:u128,
- pub updated_at:u128
+ pub create_at:u64,
+ pub updated_at:u64
 }

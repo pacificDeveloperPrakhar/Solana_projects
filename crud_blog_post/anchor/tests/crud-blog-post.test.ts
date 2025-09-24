@@ -1,55 +1,63 @@
-import {
-  Blockhash,
-  createSolanaClient,
-  createTransaction,
-  Instruction,
-  KeyPairSigner,
-  signTransactionMessageWithSigners,
-} from 'gill'
-import { getGreetInstruction } from '../src'
-// @ts-ignore error TS2307 suggest setting `moduleResolution` but this is already configured
-import { loadKeypairSignerFromFile } from 'gill/node'
+import {ProgramTestContext,startAnchor} from "solana-bankrun";
+import {BankrunProvider} from "anchor-bankrun";
+import {PublicKey} from "@solana/web3.js";
+import {BN,Program} from "@coral-xyz/anchor"
+import IDL from "/home/prakhar/Desktop/prakhar/Solana_bootcamp/crud_blog_post/anchor/target/idl/crud_blog_post.json"
+import {CrudBlogPost,} from "/home/prakhar/Desktop/prakhar/Solana_bootcamp/crud_blog_post/anchor/target/types/crud_blog_post.ts"
+import {assert,expect}  from "chai";
+describe("checking the crud_blog_post",async function()
+{
+  let program_id:PublicKey;
+    let context:ProgramTestContext;
+    let provider:BankrunProvider;
+    let program:Program<CrudBlogPost>;
+    let userAccount:any;
 
-const { rpc, sendAndConfirmTransaction } = createSolanaClient({ urlOrMoniker: process.env.ANCHOR_PROVIDER_URL! })
-describe('crud-blog-post', () => {
-  let payer: KeyPairSigner
+    beforeAll(async function(){
 
-  beforeAll(async () => {
-    payer = await loadKeypairSignerFromFile(process.env.ANCHOR_WALLET!)
+      program_id=new PublicKey(IDL.address);
+      context=await startAnchor("",[{name:"crud_blog_post",programId:program_id}],[]);
+
+      provider=new BankrunProvider(context);
+
+      program=new Program<CrudBlogPost>(IDL as CrudBlogPost,provider)
+    })
+
+    it("creating user account",async function()
+  {
+    const name:string="Jonathan";
+    const [user_pda]=PublicKey.findProgramAddressSync([Buffer.from("blog account"),Buffer.from(name)],program_id)
+
+    await program.methods.createUser(name).rpc();
+
+    const data=await program.account.userAccount.fetch(user_pda);
+
+    assert.equal(data.name,name);
+    assert.equal(data.blogCount,0);
+    userAccount=user_pda
+    console.log(typeof(user_pda))
+
   })
 
-  it('should run the program and print "GM!" to the transaction log', async () => {
-    // ARRANGE
-    expect.assertions(1)
-    const ix = getGreetInstruction()
+  // now add the post
+it("creating our first blog post",async function()
+{
+  // {
+  //   "name": "sunset_lake.jpg",
+  //   "title": "Golden Sunset Over the Lake",
+  //   "description": "A calm lake reflecting the warm hues of a golden sunset with silhouettes of trees in the background."
+       //"image":"http://23"
+  // }
+const title="Nice ";
+const image='http';
+const id=new BN(2);
+const description="u";
 
-    // ACT
-    const sx = await sendAndConfirm({ ix, payer })
+// const [blog_pda]=PublicKey.findProgramAddressSync([userAccount.toBuffer(),id.toArrayLike(Buffer, "le", 8) ],program_id)
 
-    // ASSERT
-    expect(sx).toBeDefined()
-    console.log('Transaction signature:', sx)
-  })
+await program.methods.createBlog(id,title, description, image).accounts({
+  userAccount
+}).rpc();
+
 })
-
-// Helper function to keep the tests DRY
-let latestBlockhash: Awaited<ReturnType<typeof getLatestBlockhash>> | undefined
-async function getLatestBlockhash(): Promise<Readonly<{ blockhash: Blockhash; lastValidBlockHeight: bigint }>> {
-  if (latestBlockhash) {
-    return latestBlockhash
-  }
-  return await rpc
-    .getLatestBlockhash()
-    .send()
-    .then(({ value }) => value)
-}
-async function sendAndConfirm({ ix, payer }: { ix: Instruction; payer: KeyPairSigner }) {
-  const tx = createTransaction({
-    feePayer: payer,
-    instructions: [ix],
-    version: 'legacy',
-    latestBlockhash: await getLatestBlockhash(),
-  })
-  const signedTransaction = await signTransactionMessageWithSigners(tx)
-  return await sendAndConfirmTransaction(signedTransaction)
-}
+})

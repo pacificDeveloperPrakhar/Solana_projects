@@ -2,5 +2,5 @@ import { createCodamaConfig } from 'gill'
 
 export default createCodamaConfig({
   clientJs: 'anchor/src/client/js/generated',
-  idl: 'target/idl/crud-blog-post.json',
+  idl: 'target/idl/crud_blog_post.json',
 })

@@ -6,8 +6,7 @@ import {BN,Program} from "@coral-xyz/anchor";
 import {assert,expect}  from "chai";
 
 import IDL from "/home/prakhar/Desktop/prakhar/Solana_bootcamp/voting_app/anchor/target/idl/voting_app.json"
-import test, { beforeEach } from "node:test";
-import { Account } from "solana-bankrun/dist/internal";
+
 
 describe("voting",function()
 {
@@ -18,7 +17,7 @@ describe("voting",function()
 
     beforeAll(
         async()=>{
-            program_id=new PublicKey("JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H");
+            program_id=new PublicKey("CHCCMPxkFw4RpQHAaHWwcudkfxcK6LCcUcAj2gZwUi7f");
                     // create the context 
         /*
  * startAnchor() function arguments:
