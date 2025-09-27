@@ -1,0 +1,1 @@
+/home/prakhar/Desktop/prakhar/Solana_bootcamp/program_architecture/anchor/target/sbpf-solana-solana/release/libprogram_architecture.rlib: /home/prakhar/Desktop/prakhar/Solana_bootcamp/program_architecture/anchor/programs/program-architecture/src/lib.rs

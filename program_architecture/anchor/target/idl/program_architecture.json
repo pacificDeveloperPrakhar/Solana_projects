@@ -1,0 +1,64 @@
+{
+  "address": "75118tphCsWuJCyDTfbrXs7GcJCdt3SpXGJgCYEvEWnU",
+  "metadata": {
+    "name": "program_architecture",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "greet",
+      "discriminator": [
+        203,
+        194,
+        3,
+        150,
+        228,
+        58,
+        181,
+        62
+      ],
+      "accounts": [
+        {
+          "name": "some_big_data"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SomeBigDataStruct",
+      "discriminator": [
+        56,
+        154,
+        218,
+        25,
+        211,
+        59,
+        134,
+        230
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "SomeBigDataStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "big_data",
+            "type": {
+              "array": [
+                "u8",
+                50
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
